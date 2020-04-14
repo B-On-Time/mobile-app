@@ -1,2 +1,2 @@
-b-on-time-mobile
+B-on-Time-Mobile
 with nativeScript vue!
