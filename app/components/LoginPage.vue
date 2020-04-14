@@ -46,6 +46,8 @@
 </template>
 
 <script>
+    import Punch from './Punch'
+
     // A stub for a service that authenticates users.
     const userService = {
         register(user) {
@@ -57,15 +59,6 @@
         resetPassword(email) {
             return Promise.resolve(email);
         }
-    };
-
-    // A stub for the main page of your app. In a real app you’d put this page in its own .vue file.
-    const HomePage = {
-        template: `
-<Page>
-	<Label class="m-20" textWrap="true" text="You have successfully authenticated. This is where you build your core application functionality."></Label>
-</Page>
-`
     };
 
     export default {
@@ -102,7 +95,7 @@
                 userService
                     .login(this.user)
                     .then(() => {
-                        this.$navigateTo(HomePage);
+                        this.$navigateTo(Punch);
                     })
                     .catch(() => {
                         this.alert(
