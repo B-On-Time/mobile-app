@@ -15,32 +15,18 @@
                 <StackLayout class="input-field" marginBottom="25">
                     <TextField ref="password" class="input" hint="Password"
                         secure="true" v-model="user.password"
-                        :returnKeyType="isLoggingIn ? 'done' : 'next'"
-                        @returnPress="focusConfirmPassword" fontSize="18" />
-                    <StackLayout class="hr-light" />
-                </StackLayout>
-
-                <StackLayout v-show="!isLoggingIn" class="input-field">
-                    <TextField ref="confirmPassword" class="input"
-                        hint="Confirm password" secure="true"
-                        v-model="user.confirmPassword" returnKeyType="done"
                         fontSize="18" />
                     <StackLayout class="hr-light" />
                 </StackLayout>
 
-                <Button :text="isLoggingIn ? 'Log In' : 'Sign Up'"
+                <Button text="Log In"
                     @tap="submit" class="btn btn-primary m-t-20" />
-                <Label v-show="isLoggingIn" text="Forgot your password?"
+                <Label text="Forgot your password?"
                     class="login-label" @tap="forgotPassword" />
             </StackLayout>
 
-            <Label class="login-label sign-up-label" @tap="toggleForm">
-                <FormattedString>
-                    <Span
-                        :text="isLoggingIn ? 'Don’t have an account? ' : 'Back to Login'" />
-                    <Span :text="isLoggingIn ? 'Sign up' : ''" class="bold" />
-                </FormattedString>
-            </Label>
+            <Label class="login-label sign-up-label" fontSize="11" 
+                text="Don't have an account? Please contact your administrator" @tap="toggleForm" />
             </FlexboxLayout>
     </Page>
 </template>
@@ -50,9 +36,6 @@
 
     // A stub for a service that authenticates users.
     const userService = {
-        register(user) {
-            return Promise.resolve(user);
-        },
         login(user) {
             return Promise.resolve(user);
         },
@@ -64,19 +47,13 @@
     export default {
         data() {
             return {
-                isLoggingIn: true,
                 user: {
-                    email: "Email",
-                    password: "Password",
-                    confirmPassword: "Password"
+                    email: "",
+                    password: ""
                 }
             };
         },
         methods: {
-            toggleForm() {
-                this.isLoggingIn = !this.isLoggingIn;
-            },
-
             submit() {
                 if (!this.user.email || !this.user.password) {
                     this.alert(
@@ -84,10 +61,8 @@
                     );
                     return;
                 }
-                if (this.isLoggingIn) {
+                else {
                     this.login();
-                } else {
-                    this.register();
                 }
             },
 
@@ -104,30 +79,10 @@
                     });
             },
 
-            register() {
-                if (this.user.password != this.user.confirmPassword) {
-                    this.alert("Your passwords do not match.");
-                    return;
-                }
-
-                userService
-                    .register(this.user)
-                    .then(() => {
-                        this.alert(
-                            "Your account was successfully created.");
-                        this.isLoggingIn = true;
-                    })
-                    .catch(() => {
-                        this.alert(
-                            "Unfortunately we were unable to create your account."
-                        );
-                    });
-            },
-
             forgotPassword() {
                 prompt({
                     title: "Forgot Password",
-                    message: "Enter the email address you used to register for APP NAME to reset your password.",
+                    message: "Enter the email address you used to register for B-On-Time to reset your password.",
                     inputType: "email",
                     defaultText: "",
                     okButtonText: "Ok",
@@ -152,11 +107,6 @@
 
             focusPassword() {
                 this.$refs.password.nativeView.focus();
-            },
-            focusConfirmPassword() {
-                if (!this.isLoggingIn) {
-                    this.$refs.confirmPassword.nativeView.focus();
-                }
             },
 
             alert(message) {
