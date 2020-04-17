@@ -4,24 +4,20 @@
         <ScrollView>
             <StackLayout class="dash-panel">
                 <Label text="Welcome" class="welcome" />
-                <Button text="Punch In!" @tap="onPunchIn"
+                <Button text="Punch In" @tap="onPunchIn"
                     class="-primary -rounded-lg" :isEnabled="punchToggle"/>
-                <Button text="Punch Out!" @tap="onPunchOut"
+                <Button text="Punch Out" @tap="onPunchOut"
                     class="-primary -rounded-lg" :isEnabled="!punchToggle" />
-                <Label text="My Schedule" class="schedule" />
-                <ListView class="list-group" for="schedule in schedules" style="height:1000px">
-                    <v-template>
-                        <FlexboxLayout flexDirection="row" class="list-group-item">
-                            <Label text="schedule examples..." style="width: 60%" />
-                        </FlexboxLayout>
-                    </v-template>
-                </ListView>
+                <Button text="Kiosk Mode" v-if="kioskUser" @tap="onKioskMode"
+                    class="-primary -rounded-lg" />
             </StackLayout>
         </ScrollView>
     </Page>
 </template>
 
 <script>
+    import Kiosk from './Kiosk'
+
     export default {
         methods: {
             onPunchIn() {
@@ -32,13 +28,19 @@
             onPunchOut() {
                 this.punchToggle = !this.punchToggle
                 console.log("You have punched out");
+            },
+
+            onKioskMode() {
+                console.log("Entering Kiosk mode...");
+                this.$navigateTo(Kiosk);
             }
         },
         
         data() {
             return {
                 punchToggle: true,
-                schedules: [1,2,3,4,5,6,7,8,9,10]
+                schedules: [1,2,3,4,5,6,7,8,9,10],
+                kioskUser: true
             };
         }
     };
@@ -46,12 +48,10 @@
 
 <style scoped>
     .dash-panel {
-        /* vertical-align: center; */
         font-size: 20;
         margin: 35;
     }
     .welcome {
-        horizontal-align: center;
         font-size: 25;
         font-weight: 600;
         margin-bottom: 45;
@@ -59,7 +59,6 @@
         color: white;
     }
     .schedule {
-        horizontal-align: center;
         font-size: 25;
         font-weight: 600;
         margin-top: 45;
