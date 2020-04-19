@@ -1,12 +1,12 @@
 <template>
-    <Page>
+    <Page @loaded="onLoaded" navigatingTo="onNavigate">
         <ActionBar title="Kiosk Mode" />
         <ScrollView>
             <StackLayout class="form">
             <Label class="header" text="Please enter your employee PIN number:" />
              <StackLayout class="input-field" marginBottom="25">
                     <TextField class="input" hint="PIN" v-model="user.pin"
-                        autocorrect="false" autocapitalizationType="none" fontSize="18" />
+                        secure="true" autocorrect="false" autocapitalizationType="none" fontSize="18" />
                     <StackLayout class="hr-light" />
                 </StackLayout>
             </StackLayout>
@@ -15,7 +15,27 @@
 </template>
 
 <script>
+    import { android, AndroidApplication } from 'tns-core-modules/application'
+    import { isAndroid } from 'tns-core-modules/platform'
+
     export default {
+        methods: {
+	   onLoaded() {
+	       android.on(AndroidApplication.activityBackPressedEvent,
+	       	  function(args) {
+	    	     args.cancel = true;
+	    	     console.log("Back button pressed");
+		  });
+	   },
+
+	   onNavigate() {
+	        android.off(AndroidApplication.activityBackPressedEvent,
+		   function(args) {
+		      console.log("Back button pressed");
+		   });
+	   }
+	},
+
         data() {
             return {
                 user: {
