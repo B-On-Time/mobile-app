@@ -1,5 +1,5 @@
 <template>
-    <Page @loaded="onLoaded" @navigatingFrom="onNavigate">
+    <Page @loaded="onLoaded" @navigatedFrom="onNavigate">
         <ActionBar title="Kiosk Mode" />
         <ScrollView>
             <StackLayout class="form">
