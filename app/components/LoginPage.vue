@@ -34,15 +34,16 @@
 <script>
     import Punch from './Punch'
 
+    // TODO: Use API and Promises to do authentication
     // A stub for a service that authenticates users.
-    const userService = {
-        login(user) {
-            return Promise.resolve(user);
-        },
-        resetPassword(email) {
-            return Promise.resolve(email);
-        }
-    };
+    // const userService = {
+    //     login(user) {
+    //         return Promise.resolve(user)
+    //     },
+    //     resetPassword(email) {
+    //         return Promise.resolve(email);
+    //     }
+    // };
 
     export default {
         data() {
@@ -67,16 +68,12 @@
             },
 
             login() {
-                userService
-                    .login(this.user)
-                    .then(() => {
-                        this.$navigateTo(Punch);
-                    })
-                    .catch(() => {
-                        this.alert(
-                            "Unfortunately we could not find your account."
-                            );
-                    });
+                var isUser = true // TODO: Use API promises to verify this
+                if(isUser){
+                    this.$navigateTo(Punch);
+                } else {
+                    this.alert('Unfortunately we could not find your account.');
+                }
             },
 
             forgotPassword() {
