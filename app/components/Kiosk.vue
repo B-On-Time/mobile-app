@@ -28,21 +28,30 @@
     };
 
     export default {
+        props: {
+	  prevent: {
+	    type: Boolean,
+	    default: true
+	  }
+	},
+
         methods: {
             onLoaded() {
-                android.on(AndroidApplication.activityBackPressedEvent,
-                    function(args) {
-                        args.cancel = true;
-                        console.log("Back button pressed");
-                });
+	        this.prevent = true;
+                android.on(AndroidApplication.activityBackPressedEvent, this.backButton);
             },
 
             onNavigate() {
-                android.off(AndroidApplication.activityBackPressedEvent,
-                    function(args) {
-                        console.log("Back button pressed");
-                });
+	        this.prevent = false;
+                android.off(AndroidApplication.activityBackPressedEvent, this.backButton);
             },
+
+	    backButton(args) {
+	       if(this.prevent)
+	          args.cancel = true;
+
+	       console.log("Back button pressed.");
+	    },
 
             login() {
                 console.log('logging in...')
