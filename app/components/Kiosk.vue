@@ -5,8 +5,9 @@
             <StackLayout class="form">
             <Label class="header" text="Please enter your employee PIN number:" />
              <StackLayout class="input-field" marginBottom="25">
-                    <TextField class="input" hint="PIN" v-model="user.pin" @returnPress="login"
-                        secure="true" autocorrect="false" autocapitalizationType="none" fontSize="18" />
+                    <TextField class="input" hint="PIN" v-model="user.pin"
+		               @returnPress="login" secure="true" autocorrect="false"
+			       autocapitalizationType="none" fontSize="18" />
                     <StackLayout class="hr-light" />
                 </StackLayout>
             </StackLayout>
@@ -29,10 +30,7 @@
 
     export default {
         props: {
-	  prevent: {
-	    type: Boolean,
-	    default: true
-	  }
+	  prevent: Boolean
 	},
 
         methods: {
