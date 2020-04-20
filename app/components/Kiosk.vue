@@ -3,11 +3,12 @@
         <ActionBar title="Kiosk Mode" />
         <ScrollView>
             <StackLayout class="form">
-            <Label class="header" text="Please enter your employee PIN number:" />
+            <Label class="header" text="Please enter your PIN number:" />
              <StackLayout class="input-field" marginBottom="25">
-                    <TextField class="input" hint="PIN" v-model="user.pin"
-		               @returnPress="login" secure="true" autocorrect="false"
-			       autocapitalizationType="none" fontSize="18" />
+                    <TextField class="input" hint="PIN" v-model="user.pin" maxLength="4"
+		    	       :text="user.pin" @returnPress="login" secure="true"
+			       autocorrect="false" autocapitalizationType="none"
+			       keyboardType="number" />
                     <StackLayout class="hr-light" />
                 </StackLayout>
             </StackLayout>
@@ -56,7 +57,14 @@
                 userService
                     .login(this.user)
                     .then(() => {
-                        this.$navigateTo(Punch);
+		    	this.user.pin = "";
+                        this.$navigateTo(Punch, {
+			      props: {
+			         currentUser: {
+				   name: "Ernesto Perez Pozo"
+				 }
+			      }
+			   });
                     })
                     .catch(() => {
                         this.alert(
@@ -78,7 +86,7 @@
 
 <style scoped>
     .header {
-        font-size: 17;
+        font-size: 20;
         font-weight: 300;
         margin-bottom: 70;
         text-align: center;
@@ -94,7 +102,8 @@
         margin-bottom: 25;
     }
     .input {
-        font-size: 18;
+        font-size: 40;
+	text-align: center;
     }
     .input-field .input {
         font-size: 54;
