@@ -1,13 +1,17 @@
 <template>
     <Page @loaded="onLoaded" @navigatedFrom="onNavigate">
         <ActionBar class="action-bar">
-	   <Label class="action-bar" text="Kiosk Mode" />
+	   <GridLayout rows="*" columns="2*,*" >
+	      <Label row="0" col="0" class="action-bar" text="Kiosk Mode" />
+	      <Label row="0" col="1" class="action-bar-logout" text="Log out" @tap="onTap" />
+	   </GridLayout>
 	</ActionBar>
         <ScrollView>
             <StackLayout class="form">
             <Label class="header" text="Please enter your PIN number:" />
              <StackLayout class="input-field" marginBottom="25">
-                    <TextField class="input" hint="PIN" v-model="user.pin" maxLength="4"
+                    <TextField class="input" hint="PIN"
+		               v-model="user.pin" maxLength="4"
 		    	       :text="user.pin" @returnPress="login" secure="true"
 			       autocorrect="false" autocapitalizationType="none"
 			       keyboardType="number" />
@@ -21,6 +25,7 @@
 <script>
     import { android, AndroidApplication } from 'tns-core-modules/application'
     import { isAndroid } from 'tns-core-modules/platform'
+    const Frame = require("tns-core-modules/ui/frame").Frame;
 
     import Punch from './Punch'
 
@@ -33,6 +38,10 @@
 
     export default {
         methods: {
+	    onTap() {
+	        Frame.topmost().goBack();
+	    },
+	    
             onLoaded() {
 	        this.prevent = true;
                 android.on(AndroidApplication.activityBackPressedEvent, this.backButton);
@@ -87,7 +96,7 @@
 <style scoped>
     .header {
         font-size: 20;
-        font-weight: 300;
+        font-weight: 400;
         margin-bottom: 70;
         text-align: center;
     }
@@ -100,20 +109,27 @@
     }
 
     .action-bar {
-        background-color: #4f39dd;
-	font-size: 25;
+        background-color: #2e5cb8;
+	font-size: 24;
 	font-weight: 400;
+	vertical-align: center;
+	text-align: right;
+    }
+
+    .action-bar-logout {
+    	vertical-align: center;
+    	font-size: 18;
+	font-weight: 350;
+	text-align: right;
     }
 
     .input-field {
         margin-bottom: 25;
     }
+
     .input {
-        font-size: 40;
+        font-size: 35;
 	text-align: center;
-    }
-    .input-field .input {
-        font-size: 54;
     }
 
     Page {

@@ -2,8 +2,7 @@
     <Page @loaded="onLoaded" actionBarHidden="true" >
         <ScrollView>
             <StackLayout class="dash-panel">
-                <Label text="Welcome!" class="welcome" />
-		<Label :text="currentUser.name" class="welcome" />
+		<Label :text="'Welcome, ' + currentUser.name" class="welcome" />
                 <Button text="Punch In" @tap="onPunchIn"
                     class="-primary -rounded-lg" :isEnabled="punchToggle"/>
                 <Button text="Punch Out" @tap="onPunchOut"

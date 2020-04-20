@@ -75,7 +75,7 @@
                     this.$navigateTo(Punch, {
 		       props: {
 		          currentUser: {
-			    name: "Ayy Lmao",
+			    name: "Super Long Name For Testing Purposes",
 			    kiosk: true
 			  }
 		       }
@@ -131,12 +131,14 @@
         align-items: center;
         flex-direction: column;
     }
+
     .form {
         margin-left: 30;
         margin-right: 30;
         flex-grow: 2;
         vertical-align: middle;
     }
+
     .header {
         font-size: 25;
         font-weight: 600;
@@ -153,6 +155,7 @@
     .input-field .input {
         font-size: 54;
     }
+
     .btn-primary {
         height: 50;
         margin: 30 5 15 5;
@@ -162,6 +165,7 @@
         font-size: 20;
         font-weight: 600;
     }
+
     .login-label {
         font-size: 16;
     }
@@ -177,8 +181,5 @@
     .password {
        horizontal-align: center;
     }
-
-    
-
 
 </style>
