@@ -1,11 +1,17 @@
 <template>
     <Page @loaded="onLoaded" @navigatedFrom="onNavigate">
-        <ActionBar title="Kiosk Mode" />
+        <ActionBar class="action-bar">
+	   <GridLayout rows="*" columns="2*,*" >
+	      <Label row="0" col="0" class="action-bar" text="Kiosk Mode" />
+	      <Label row="0" col="1" class="action-bar-logout" text="Log out" @tap="onTap" />
+	   </GridLayout>
+	</ActionBar>
         <ScrollView>
             <StackLayout class="form">
             <Label class="header" text="Please enter your PIN number:" />
              <StackLayout class="input-field" marginBottom="25">
-                    <TextField class="input" hint="PIN" v-model="user.pin" maxLength="4"
+                    <TextField class="input" hint="PIN"
+		               v-model="user.pin" maxLength="4"
 		    	       :text="user.pin" @returnPress="login" secure="true"
 			       autocorrect="false" autocapitalizationType="none"
 			       keyboardType="number" />
@@ -19,6 +25,7 @@
 <script>
     import { android, AndroidApplication } from 'tns-core-modules/application'
     import { isAndroid } from 'tns-core-modules/platform'
+    const Frame = require("tns-core-modules/ui/frame").Frame;
 
     import Punch from './Punch'
 
@@ -30,11 +37,11 @@
     };
 
     export default {
-        props: {
-	  prevent: Boolean
-	},
-
         methods: {
+	    onTap() {
+	        Frame.topmost().goBack();
+	    },
+	    
             onLoaded() {
 	        this.prevent = true;
                 android.on(AndroidApplication.activityBackPressedEvent, this.backButton);
@@ -61,7 +68,8 @@
                         this.$navigateTo(Punch, {
 			      props: {
 			         currentUser: {
-				   name: "Ernesto Perez Pozo"
+				   name: "Ernesto Perez Pozo",
+				   kiosk: true
 				 }
 			      }
 			   });
@@ -76,6 +84,7 @@
 
         data() {
             return {
+	        prevent: true,
                 user: {
                     pin: ""
                 }
@@ -87,7 +96,7 @@
 <style scoped>
     .header {
         font-size: 20;
-        font-weight: 300;
+        font-weight: 400;
         margin-bottom: 70;
         text-align: center;
     }
@@ -98,14 +107,34 @@
         vertical-align: top;
         margin-top: 150;
     }
+
+    .action-bar {
+        background-color: #2e5cb8;
+	font-size: 24;
+	font-weight: 400;
+	vertical-align: center;
+	text-align: right;
+    }
+
+    .action-bar-logout {
+    	vertical-align: center;
+    	font-size: 18;
+	font-weight: 350;
+	text-align: right;
+    }
+
     .input-field {
         margin-bottom: 25;
     }
+
     .input {
-        font-size: 40;
+        font-size: 35;
 	text-align: center;
     }
-    .input-field .input {
-        font-size: 54;
+
+    Page {
+    	background: rgb(2,0,36);
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(22,14,75,1) 0%, rgba(0,204,255,1) 100%);
     }
+
 </style>
