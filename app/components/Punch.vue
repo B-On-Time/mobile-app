@@ -1,9 +1,10 @@
 <template>
-    <Page>
+    <Page @loaded="onLoaded" >
         <ActionBar title="Dashboard" />
         <ScrollView>
             <StackLayout class="dash-panel">
                 <Label text="Welcome" class="welcome" />
+		<Label :text="currentUser.name" class="welcome" />
                 <Button text="Punch In" @tap="onPunchIn"
                     class="-primary -rounded-lg" :isEnabled="punchToggle"/>
                 <Button text="Punch Out" @tap="onPunchOut"
@@ -19,7 +20,12 @@
     import Kiosk from './Kiosk'
 
     export default {
+    	props: ['currentUser'],
         methods: {
+	    onLoaded() {
+	       console.log(this.currentUser);
+	    },
+
             onPunchIn() {
                 this.punchToggle = !this.punchToggle
                 console.log("You have punched in");

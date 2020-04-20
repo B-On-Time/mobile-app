@@ -46,6 +46,8 @@
     // };
 
     export default {
+        props: ['currrentUser'],
+
         data() {
             return {
                 user: {
@@ -70,7 +72,13 @@
             login() {
                 var isUser = true // TODO: Use API promises to verify this
                 if(isUser){
-                    this.$navigateTo(Punch);
+                    this.$navigateTo(Punch, {
+		       props: {
+		          currentUser: {
+			    name: "Ayy Lmao"
+			  }
+		       }
+		    });
                 } else {
                     this.alert('Unfortunately we could not find your account.');
                 }
