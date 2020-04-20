@@ -1,15 +1,14 @@
 <template>
-    <Page @loaded="onLoaded" >
-        <ActionBar title="Dashboard" />
+    <Page @loaded="onLoaded" actionBarHidden="true" >
         <ScrollView>
             <StackLayout class="dash-panel">
-                <Label text="Welcome" class="welcome" />
+                <Label text="Welcome!" class="welcome" />
 		<Label :text="currentUser.name" class="welcome" />
                 <Button text="Punch In" @tap="onPunchIn"
                     class="-primary -rounded-lg" :isEnabled="punchToggle"/>
                 <Button text="Punch Out" @tap="onPunchOut"
                     class="-primary -rounded-lg" :isEnabled="!punchToggle" />
-                <Button text="Kiosk Mode" v-if="kioskUser" @tap="onKioskMode"
+                <Button text="Kiosk Mode" v-if="currentUser.kiosk" @tap="onKioskMode"
                     class="-primary -rounded-lg" />
             </StackLayout>
         </ScrollView>
@@ -45,8 +44,6 @@
         data() {
             return {
                 punchToggle: true,
-                schedules: [1,2,3,4,5,6,7,8,9,10],
-                kioskUser: true
             };
         }
     };
@@ -56,14 +53,17 @@
     .dash-panel {
         font-size: 20;
         margin: 35;
+	vertical-align: center;
     }
+
     .welcome {
         font-size: 25;
         font-weight: 600;
-        margin-bottom: 45;
+        margin-bottom: 15;
         text-align: center;
         color: white;
     }
+
     .schedule {
         font-size: 25;
         font-weight: 600;
@@ -71,5 +71,10 @@
         margin-bottom: 45;
         text-align: center;
         color: white;
+    }
+
+    Page {
+    	background: rgb(2,0,36);
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(22,14,75,1) 0%, rgba(0,204,255,1) 100%);
     }
 </style>

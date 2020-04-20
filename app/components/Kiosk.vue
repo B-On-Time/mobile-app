@@ -1,6 +1,8 @@
 <template>
     <Page @loaded="onLoaded" @navigatedFrom="onNavigate">
-        <ActionBar title="Kiosk Mode" />
+        <ActionBar class="action-bar">
+	   <Label class="action-bar" text="Kiosk Mode" />
+	</ActionBar>
         <ScrollView>
             <StackLayout class="form">
             <Label class="header" text="Please enter your PIN number:" />
@@ -30,10 +32,6 @@
     };
 
     export default {
-        props: {
-	  prevent: Boolean
-	},
-
         methods: {
             onLoaded() {
 	        this.prevent = true;
@@ -61,7 +59,8 @@
                         this.$navigateTo(Punch, {
 			      props: {
 			         currentUser: {
-				   name: "Ernesto Perez Pozo"
+				   name: "Ernesto Perez Pozo",
+				   kiosk: true
 				 }
 			      }
 			   });
@@ -76,6 +75,7 @@
 
         data() {
             return {
+	        prevent: true,
                 user: {
                     pin: ""
                 }
@@ -98,6 +98,13 @@
         vertical-align: top;
         margin-top: 150;
     }
+
+    .action-bar {
+        background-color: #4f39dd;
+	font-size: 25;
+	font-weight: 400;
+    }
+
     .input-field {
         margin-bottom: 25;
     }
@@ -108,4 +115,10 @@
     .input-field .input {
         font-size: 54;
     }
+
+    Page {
+    	background: rgb(2,0,36);
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(22,14,75,1) 0%, rgba(0,204,255,1) 100%);
+    }
+
 </style>

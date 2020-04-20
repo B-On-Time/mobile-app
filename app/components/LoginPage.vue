@@ -1,5 +1,5 @@
 <template>
-    <Page>
+    <Page actionBarHidden="true" >
         <FlexboxLayout class="page">
             <StackLayout class="form">
                 <Label class="header" text="Welcome to B-On-Time" />
@@ -22,7 +22,7 @@
                 <Button text="Log In"
                     @tap="submit" class="btn btn-primary m-t-20" />
                 <Label text="Forgot your password?"
-                    class="login-label" @tap="forgotPassword" />
+                    class="login-label password" @tap="forgotPassword" />
             </StackLayout>
 
             <Label class="login-label sign-up-label" fontSize="11" 
@@ -75,7 +75,8 @@
                     this.$navigateTo(Punch, {
 		       props: {
 		          currentUser: {
-			    name: "Ayy Lmao"
+			    name: "Ayy Lmao",
+			    kiosk: true
 			  }
 		       }
 		    });
@@ -148,6 +149,7 @@
     .input {
         font-size: 18;
     }
+    
     .input-field .input {
         font-size: 54;
     }
@@ -166,4 +168,17 @@
     .sign-up-label {
         margin-bottom: 20;
     }
+
+    Page {
+    	background: rgb(2,0,36);
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(22,14,75,1) 0%, rgba(0,204,255,1) 100%);    
+    }
+
+    .password {
+       horizontal-align: center;
+    }
+
+    
+
+
 </style>
