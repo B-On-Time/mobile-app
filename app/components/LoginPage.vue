@@ -46,129 +46,135 @@
 </template>
 
 <script>
-import Punch from "./Punch";
-const axios = require("axios");
+  import Punch from "./Punch";
+  const axios = require("axios");
 
-const instance = axios.create({
-  timeout: 10000,
-  headers: { "Content-Type": "application/json" },
-  withCredentials: true
-});
+  const instance = axios.create({
+    timeout: 10000,
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true
+  });
 
-// TODO: Use API and Promises to do authentication
-// A stub for a service that authenticates users.
-// const userService = {
-//     login(user) {
-//         // testing API call
-//         const obj = instance.post('api.crabrr.com/auht/login')
-//         console.log(obj)
+  export default {
+    props: ["currrentUser"],
 
-//         return Promise.resolve(user)
-//     },
-//     resetPassword(email) {
-//         return Promise.resolve(email);
-//     }
-// };
-
-export default {
-  props: ["currrentUser"],
-
-  data() {
-    return {
-      user: {
-        email: "",
-        password: ""
-      }
-    };
-  },
-  methods: {
-    submit() {
-      if (!this.user.email || !this.user.password) {
-        this.alert("Please provide both an email address and password.");
-        return;
-      } else {
-        this.login();
-      }
-    },
-
-    login() {
-      // var jsonTmp = {
-      //     "username": "Administrator",
-      //     "password": "123"
-      // }
-      // const obj = instance.post('localhost:3030/auth/login/apikey.json', jsonTmp)
-      // console.log(obj)
-
-      // var res = someAPICall(); // should returned a JSON request
-      
-      // test JSON Request
-      var res = {
-        cookies: {
-          jwt: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzBjNTA1ZWItNjY3MS00N2U2LWE4YTctOWQ3ZDdmY2NmMmI2IiwiZmlyc3RfbmFtZSI6IkRlZmF1bHQgQWRtaW4iLCJsYXN0X25hbWUiOiJVc2VyIiwiaWF0IjoxNTg3NDA5NTEwLCJleHAiOjE1ODc0OTU5MTAsImF1ZCI6WyJsb2NhbGhvc3QiXSwiaXNzIjoiQ09QNDMzMUFQSSJ9.X2OtVSkBCINyT8PTLGVQWMRgiaP4TlK5tochK-5Mh59WVQn7IunLoShFVR8tPYWazfB_igT4Mo8vKcWsIXBOMK2DK7wyYaITQckiTK4i35dTlswV_0hzISWUQ7iM1lJecEX8hDz4NOYI3cSiOkGkL2Yhc6jFhZNqYeyH-iu5hXIX0ughPaolt9DXVjDwOdPcAXwJgNIxLZZVqI9dcXqsdTAtFeC9jSyY1rrx5PbAobmqnleaUTRpyOHXH7YiUdHF8HCU_pNYi3VD7PNBA0CcNXA8Z6WoJD3OOo-E3uSyoA0EPP5sF8JdD1bOJ2QnfaHxE3I15H-Invix0WqErPqfLAUV2nSZlClGwaTPMF3IIt_J0qg75X6wZx66-bP1oCOJMtTbZxJld-NXcobp0W3rUeoJzZI50BS6LJ9rLc1AD1v4V_NHv-o2mxOQlWhKCUk21WT9UBiN06qxCvnj849xxjay00kcwU4Ql6Gpzm9F_5-_kLYhztay3zVG5Hd3hjQqrnF-Efu_KsK7oFvGq8ZgovRHyBseoFGHM-_0FXwULzICU4Ai5mYMt_kVaUqZhOL1fjnKOLcncF-KMvEK-QLQR92089lDv_HpUUoFP6HpQnDcdsDMYQbKsdobc_V-g0i9Afc7tXOmgmx3Q9j1zu4iaQ_1HA8fqxmnPEg6SIAYm68',
-          userinfo: {
-              "user_id":"70c505eb-6671-47e6-a8a7-9d7d7fccf2b6",
-              "first_name":"Default Admin",
-              "last_name":"User"
-            }
+    data() {
+      return {
+        user: {
+          email: "",
+          password: "",
+          id: "",
+          firstName: "",
+          lastName: "",
+          isAdmin: false
         }
-      }
+      };
+    },
+    methods: {
+      submit() {
+        if (!this.user.email || !this.user.password) {
+          this.alert("Please provide both an email address and password.");
+          return;
+        } else {
+          this.login();
+        }
+      },
 
-      console.log(res)
+      login() {
 
-      var isUser = true; // TODO: Use API promises to verify this
-      if (isUser) {
-        this.$navigateTo(Punch, {
-          props: {
-            currentUser: {
-              name: "Ayy Lmao"
+        // =======================================TESTING CODE BLOCK============================================================
+
+        // NOTE: test JSON Request to be sent to some API Endpoint
+        // var jsonTmp = {
+        //     "username": "Administrator",
+        //     "password": "123"
+        // }
+        // const obj = instance.post('localhost:3030/auth/login/apikey.json', jsonTmp)
+        // console.log(obj)
+        
+        // NOTE: test JSON Response to be received from some API Endpoint
+        var res = {
+          cookies: {
+            jwt: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzBjNTA1ZWItNjY3MS00N2U2LWE4YTctOWQ3ZDdmY2NmMmI2IiwiZmlyc3RfbmFtZSI6IkRlZmF1bHQgQWRtaW4iLCJsYXN0X25hbWUiOiJVc2VyIiwiaWF0IjoxNTg3NDA5NTEwLCJleHAiOjE1ODc0OTU5MTAsImF1ZCI6WyJsb2NhbGhvc3QiXSwiaXNzIjoiQ09QNDMzMUFQSSJ9.X2OtVSkBCINyT8PTLGVQWMRgiaP4TlK5tochK-5Mh59WVQn7IunLoShFVR8tPYWazfB_igT4Mo8vKcWsIXBOMK2DK7wyYaITQckiTK4i35dTlswV_0hzISWUQ7iM1lJecEX8hDz4NOYI3cSiOkGkL2Yhc6jFhZNqYeyH-iu5hXIX0ughPaolt9DXVjDwOdPcAXwJgNIxLZZVqI9dcXqsdTAtFeC9jSyY1rrx5PbAobmqnleaUTRpyOHXH7YiUdHF8HCU_pNYi3VD7PNBA0CcNXA8Z6WoJD3OOo-E3uSyoA0EPP5sF8JdD1bOJ2QnfaHxE3I15H-Invix0WqErPqfLAUV2nSZlClGwaTPMF3IIt_J0qg75X6wZx66-bP1oCOJMtTbZxJld-NXcobp0W3rUeoJzZI50BS6LJ9rLc1AD1v4V_NHv-o2mxOQlWhKCUk21WT9UBiN06qxCvnj849xxjay00kcwU4Ql6Gpzm9F_5-_kLYhztay3zVG5Hd3hjQqrnF-Efu_KsK7oFvGq8ZgovRHyBseoFGHM-_0FXwULzICU4Ai5mYMt_kVaUqZhOL1fjnKOLcncF-KMvEK-QLQR92089lDv_HpUUoFP6HpQnDcdsDMYQbKsdobc_V-g0i9Afc7tXOmgmx3Q9j1zu4iaQ_1HA8fqxmnPEg6SIAYm68',
+            userinfo: {
+                "user_id":"70c505eb-6671-47e6-a8a7-9d7d7fccf2b6",
+                "first_name":"Default Admin",
+                "last_name":"User"
+              }
+          }
+        }
+
+        var jwt = res.cookies['jwt']
+        var id = res.cookies['userinfo'].user_id
+        var firstName = res.cookies['userinfo'].first_name
+        var lastName = res.cookies['userinfo'].last_name
+
+        console.log('jwt - ' + jwt)
+        console.log('id - ' + id)
+        console.log('first name - ' + firstName)
+        console.log('last name - ' + lastName)
+
+        var auth = true;
+        this.firstName = firstName
+        this.lastName  = lastName
+        this.id = id
+
+        // ========================================END TESTING CODE BLOCK=========================================================
+
+        if (auth) {
+          this.$navigateTo(Punch, {
+            props: {
+              currentUser: {
+                name: this.firstName,
+                id: this.id
+              }
             }
+          });
+        } else {
+          this.alert("Unfortunately we could not find your account.");
+        }
+      },
+
+      forgotPassword() {
+        prompt({
+          title: "Forgot Password",
+          message:
+            "Enter the email address you used to register for B-On-Time to reset your password.",
+          inputType: "email",
+          defaultText: "",
+          okButtonText: "Ok",
+          cancelButtonText: "Cancel"
+        }).then(data => {
+          if (data.result) {
+            userService
+              .resetPassword(data.text.trim())
+              .then(() => {
+                this.alert(
+                  "Your password was successfully reset. Please check your email for instructions on choosing a new password."
+                );
+              })
+              .catch(() => {
+                this.alert(
+                  "Unfortunately, an error occurred resetting your password."
+                );
+              });
           }
         });
-      } else {
-        this.alert("Unfortunately we could not find your account.");
+      },
+
+      focusPassword() {
+        this.$refs.password.nativeView.focus();
+      },
+
+      alert(message) {
+        return alert({
+          title: "B-On-Time",
+          okButtonText: "OK",
+          message: message
+        });
       }
-    },
-
-    forgotPassword() {
-      prompt({
-        title: "Forgot Password",
-        message:
-          "Enter the email address you used to register for B-On-Time to reset your password.",
-        inputType: "email",
-        defaultText: "",
-        okButtonText: "Ok",
-        cancelButtonText: "Cancel"
-      }).then(data => {
-        if (data.result) {
-          userService
-            .resetPassword(data.text.trim())
-            .then(() => {
-              this.alert(
-                "Your password was successfully reset. Please check your email for instructions on choosing a new password."
-              );
-            })
-            .catch(() => {
-              this.alert(
-                "Unfortunately, an error occurred resetting your password."
-              );
-            });
-        }
-      });
-    },
-
-    focusPassword() {
-      this.$refs.password.nativeView.focus();
-    },
-
-    alert(message) {
-      return alert({
-        title: "B-On-Time",
-        okButtonText: "OK",
-        message: message
-      });
     }
-  }
-};
+  };
 </script>
 
 <style scoped>
