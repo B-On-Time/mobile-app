@@ -69,7 +69,7 @@
         login() {
             console.log('logging in...')
             
-            if(user.pin == '')
+            if(this.user.pin == '')
             {
                 this.alert('Please enter a PIN')
             }
