@@ -35,11 +35,11 @@
   import Punch from "./Punch";
   const axios = require("axios");
 
-  const instance = axios.create({
-    timeout: 10000,
-    headers: { "Content-Type": "application/json" },
-    withCredentials: true
-  });
+  // const instance = axios.create({
+  //   timeout: 10000,
+  //   headers: { "Content-Type": "application/json" },
+  //   withCredentials: true
+  // });
 
   export default {
     props: ["currrentUser"],
@@ -52,7 +52,8 @@
           id: "",
           firstName: "",
           lastName: "",
-          isAdmin: false
+          isAdmin: false,
+          jwt: ""
         }
       };
     },
@@ -77,8 +78,15 @@
         // }
         // const obj = instance.post('localhost:3030/auth/login/apikey.json', jsonTmp)
         // console.log(obj)
+      
         
+        // axios.post('https://api.crabrr.com/auth/apikey', {username: "Administrator", password: "123"})
+        //   .then(response => console.log('RESPONSE: ' + response.result))
+        //   .catch(error => console.log(error))
+
+
         // NOTE: test JSON Response to be received from some API Endpoint
+        // var res = someAPICall()
         var res = {
           cookies: {
             jwt: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzBjNTA1ZWItNjY3MS00N2U2LWE4YTctOWQ3ZDdmY2NmMmI2IiwiZmlyc3RfbmFtZSI6IkRlZmF1bHQgQWRtaW4iLCJsYXN0X25hbWUiOiJVc2VyIiwiaWF0IjoxNTg3NDA5NTEwLCJleHAiOjE1ODc0OTU5MTAsImF1ZCI6WyJsb2NhbGhvc3QiXSwiaXNzIjoiQ09QNDMzMUFQSSJ9.X2OtVSkBCINyT8PTLGVQWMRgiaP4TlK5tochK-5Mh59WVQn7IunLoShFVR8tPYWazfB_igT4Mo8vKcWsIXBOMK2DK7wyYaITQckiTK4i35dTlswV_0hzISWUQ7iM1lJecEX8hDz4NOYI3cSiOkGkL2Yhc6jFhZNqYeyH-iu5hXIX0ughPaolt9DXVjDwOdPcAXwJgNIxLZZVqI9dcXqsdTAtFeC9jSyY1rrx5PbAobmqnleaUTRpyOHXH7YiUdHF8HCU_pNYi3VD7PNBA0CcNXA8Z6WoJD3OOo-E3uSyoA0EPP5sF8JdD1bOJ2QnfaHxE3I15H-Invix0WqErPqfLAUV2nSZlClGwaTPMF3IIt_J0qg75X6wZx66-bP1oCOJMtTbZxJld-NXcobp0W3rUeoJzZI50BS6LJ9rLc1AD1v4V_NHv-o2mxOQlWhKCUk21WT9UBiN06qxCvnj849xxjay00kcwU4Ql6Gpzm9F_5-_kLYhztay3zVG5Hd3hjQqrnF-Efu_KsK7oFvGq8ZgovRHyBseoFGHM-_0FXwULzICU4Ai5mYMt_kVaUqZhOL1fjnKOLcncF-KMvEK-QLQR92089lDv_HpUUoFP6HpQnDcdsDMYQbKsdobc_V-g0i9Afc7tXOmgmx3Q9j1zu4iaQ_1HA8fqxmnPEg6SIAYm68',
@@ -90,20 +98,23 @@
           }
         }
 
+        var isAdmin = true                            // TODO: Check if admin using API call
         var jwt = res.cookies['jwt']
+        var auth = (jwt != null) ? true : false
         var id = res.cookies['userinfo'].user_id
         var firstName = res.cookies['userinfo'].first_name
         var lastName = res.cookies['userinfo'].last_name
 
-        console.log('jwt - ' + jwt)
-        console.log('id - ' + id)
-        console.log('first name - ' + firstName)
-        console.log('last name - ' + lastName)
+        // console.log('jwt - ' + jwt)
+        // console.log('id - ' + id)
+        // console.log('first name - ' + firstName)
+        // console.log('last name - ' + lastName)
 
-        var auth = true;
+        this.isAdmin = isAdmin
         this.firstName = firstName
         this.lastName  = lastName
         this.id = id
+        this.jwt = jwt
 
         // ========================================END TESTING CODE BLOCK=========================================================
 
@@ -111,8 +122,11 @@
           this.$navigateTo(Punch, {
             props: {
               currentUser: {
-                name: this.firstName,
-                id: this.id
+                jwt: this.jwt,
+                firstName: this.firstName,
+                lastName: this.lastName,
+                id: this.id,
+                isAdmin: this.isAdmin
               }
             }
           });

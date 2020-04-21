@@ -2,12 +2,12 @@
     <Page @loaded="onLoaded" actionBarHidden="true" >
         <ScrollView>
             <StackLayout class="dash-panel">
-		<Label :text="'Welcome, ' + currentUser.name" class="welcome" />
+		    <Label :text="'Welcome, ' + currentUser.firstName" class="welcome" />
                 <Button text="Punch In" @tap="onPunchIn"
                     class="-primary -rounded-lg" :isEnabled="punchToggle"/>
                 <Button text="Punch Out" @tap="onPunchOut"
                     class="-primary -rounded-lg" :isEnabled="!punchToggle" />
-                <Button text="Kiosk Mode" v-if="currentUser.kiosk" @tap="onKioskMode"
+                <Button text="Kiosk Mode" v-if="currentUser.isAdmin" @tap="onKioskMode"
                     class="-primary -rounded-lg" />
             </StackLayout>
         </ScrollView>
@@ -16,29 +16,42 @@
 
 <script>
     import Kiosk from './Kiosk'
+    var dialogs = require("tns-core-modules/ui/dialogs");
 
     export default {
-    	props: ['currentUser'],
+        props: ['currentUser'],
+        
         methods: {
-	    onLoaded() {
-	       console.log(this.currentUser);
-	    },
 
-	    getDate() {
-	       var d = new Date();
-	       return d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
-	    },
+            onLoaded() {
+                // console.log(this.currentUser);
+            },
+
+            getDate() {
+                var d = new Date();
+                return d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
+            },
 
             onPunchIn() {
                 this.punchToggle = !this.punchToggle
-		alert("Punched in at " + this.getDate());
-                console.log("You have punched in");
+                dialogs.alert({
+                    title: "Punched in:",
+                    message: "  at " + this.getDate(),
+                    okButtonText: "OK"
+                }).then(function () {
+                    console.log("Dialog closed!");
+                });
             },
 
             onPunchOut() {
                 this.punchToggle = !this.punchToggle
-		alert("Punched out at " + this.getDate());
-                console.log("You have punched out");
+                dialogs.alert({
+                    title: "Punched out:",
+                    message: "  at " + this.getDate(),
+                    okButtonText: "OK"
+                }).then(function () {
+                    console.log("Dialog closed!");
+                });
             },
 
             onKioskMode() {
@@ -59,7 +72,7 @@
     .dash-panel {
         font-size: 20;
         margin: 35;
-	vertical-align: center;
+	    vertical-align: center;
     }
 
     .welcome {
@@ -79,8 +92,8 @@
         color: white;
     }
 
-    Page {
+    /* Page {
     	background: rgb(2,0,36);
-	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(22,14,75,1) 0%, rgba(0,204,255,1) 100%);
-    }
+	    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(22,14,75,1) 0%, rgba(0,204,255,1) 100%);
+    } */
 </style>
