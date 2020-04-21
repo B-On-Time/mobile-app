@@ -81,11 +81,22 @@
                 console.log(response.data)
 
                 var apikey = response.data.result.apikey
-                var isAdmin = true   // TODO: Check if admin using API call
+                var isAdmin = false   // TODO: Check if admin using API call
                 var firstName = 'Abdool'
                 var lastName = 'Shakur'
                 var username = this.user.username
                 var auth = (apikey != null) ? true : false
+
+                // TODO: For testing
+                if(this.user.username == 'admin')
+                {
+                  isAdmin = true
+                  firstName = 'Admin'
+                }
+                else
+                {
+                  isAdmin = false
+                }
 
                 if(auth)
                 {
