@@ -24,7 +24,7 @@
         methods: {
 
             onLoaded() {
-                // console.log(this.currentUser);
+                console.log(this.currentUser);
             },
 
             getDate() {
