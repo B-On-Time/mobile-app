@@ -23,74 +23,102 @@
 </template>
 
 <script>
-    import { android, AndroidApplication } from 'tns-core-modules/application'
-    import { isAndroid } from 'tns-core-modules/platform'
+    // import { android, AndroidApplication } from 'tns-core-modules/application'
+    // import { isAndroid } from 'tns-core-modules/platform'
     const Frame = require("tns-core-modules/ui/frame").Frame;
 
     import Punch from './Punch'
-
-    // A stub for a service that authenticates users.
-    const userService = {
-        login(user) {
-            return Promise.resolve(user);
-        }
-    };
+    import Logout from './LoginPage'
+    const axios = require("axios")
 
     export default {
-        methods: {
-	    onTap() {
-	        Frame.topmost().goBack();
-	    },
-	    
-            onLoaded() {
-	        this.prevent = true;
-                android.on(AndroidApplication.activityBackPressedEvent, this.backButton);
-            },
-
-            onNavigate() {
-	        this.prevent = false;
-                android.off(AndroidApplication.activityBackPressedEvent, this.backButton);
-            },
-
-	    backButton(args) {
-	       if(this.prevent)
-	          args.cancel = true;
-
-	       console.log("Back button pressed.");
-	    },
-
-            login() {
-                console.log('logging in...')
-                userService
-                    .login(this.user)
-                    .then(() => {
-		    	this.user.pin = "";
-                        this.$navigateTo(Punch, {
-			      props: {
-			         currentUser: {
-				   name: "Ernesto Perez Pozo",
-				   kiosk: true
-				 }
-			      }
-			   });
-                    })
-                    .catch(() => {
-                        this.alert(
-                            "PIN does not exist. Please try again."
-                            );
-                    });
-            }
-	},
+        props: ['currrentUser'],
 
         data() {
             return {
-	        prevent: true,
                 user: {
                     pin: ""
                 }
             };
+        },
+
+        methods: {
+
+	    onTap() {
+	        this.$navigateTo(Logout);
+	    },
+	    
+        onLoaded() {
+            // console.log('kiosk page currentUser: ' + this.currentUser)
+            // this.prevent = true;
+            // android.on(AndroidApplication.activityBackPressedEvent, this.backButton);
+        },
+
+        onNavigate() {
+            // this.prevent = false;
+            // android.off(AndroidApplication.activityBackPressedEvent, this.backButton);
+        },
+
+	    backButton(args) {
+	    //    if(this.prevent)
+	    //       args.cancel = true;
+
+	    //    console.log("Back button pressed.");
+	    },
+
+        login() {
+            console.log('logging in...')
+            
+            if(user.pin == '')
+            {
+                this.alert('Please enter a PIN')
+            }
+            else
+            {
+                // this.$navigateTo(Punch, {
+                //     props: {
+                //         currentUser: {
+                //             apikey: this.currentUser.apikey,
+                //             firstName: this.currentUser.firstName,
+                //             lastName: this.currentUser.lastName,
+                //             isAdmin: this.currentUser.isAdmin,
+                //             username: this.currentUser.username
+                //         }
+                //     }
+                // })
+
+                // this.user.pin = "";
+                this.$navigateTo(Punch, {
+                    props: {
+                        currentUser: {
+                            firstName: "Abdool"
+                        }
+                    }
+                });
+            }
+
+            // userService
+            // .login(this.user)
+            // .then(() => {
+            //     this.user.pin = "";
+            //     this.$navigateTo(Punch, {
+            //         props: {
+            //             currentUser: {
+            //                 name: "Ernesto Perez Pozo",
+            //                 kiosk: true
+            //             }
+            //         }
+            //     });
+            // })
+            // .catch(() => {
+            //     this.alert(
+            //         "PIN does not exist. Please try again."
+            //     );
+            // });
         }
-    };
+	},
+
+};
 </script>
 
 <style scoped>

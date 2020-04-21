@@ -73,7 +73,7 @@
 
         var reqObj = {
           username: this.user.username, 
-          password: this.password
+          password: this.user.password
         };
 
         instance.post('https://api.crabrr.com/auth/apikey', reqObj)
@@ -81,22 +81,11 @@
                 console.log(response.data)
 
                 var apikey = response.data.result.apikey
-                var isAdmin = false   // TODO: Check if admin using API call
+                var isAdmin = true   // TODO: Check if admin using API call
                 var firstName = 'Abdool'
                 var lastName = 'Shakur'
                 var username = this.user.username
                 var auth = (apikey != null) ? true : false
-
-                // TODO: For testing
-                if(this.user.username == 'admin')
-                {
-                  isAdmin = true
-                  firstName = 'Admin'
-                }
-                else
-                {
-                  isAdmin = false
-                }
 
                 if(auth)
                 {
@@ -120,6 +109,7 @@
             })
             .catch( (error) => {
               console.log(error)
+              this.alert("Unfortunately we could not find your account.");
             })
       },
 

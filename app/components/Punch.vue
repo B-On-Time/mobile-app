@@ -1,5 +1,11 @@
 <template>
-    <Page @loaded="onLoaded" actionBarHidden="true" >
+    <Page @loaded="onLoaded" actionBarHidden="false" >
+    <ActionBar class="action-bar">
+	   <GridLayout rows="*" columns="2*,*" >
+	      <Label row="0" col="0" class="action-bar" text="Punch Mode" />
+	      <Label row="0" col="1" class="action-bar-logout" text="Log out" @tap="onTap" />
+	   </GridLayout>
+	</ActionBar>
         <ScrollView>
             <StackLayout class="dash-panel">
 		    <Label :text="'Welcome, ' + currentUser.firstName" class="welcome" />
@@ -16,13 +22,19 @@
 
 <script>
     import Kiosk from './Kiosk'
+    import Logout from './LoginPage'
     var dialogs = require("tns-core-modules/ui/dialogs");
     const axios = require("axios");
+    const Frame = require("tns-core-modules/ui/frame").Frame;
 
     export default {
         props: ['currentUser'],
         
         methods: {
+
+            onTap() {
+                this.$navigateTo(Logout);
+            },
 
             onLoaded() {
                 console.log(this.currentUser);
@@ -139,7 +151,17 @@
 
             onKioskMode() {
                 console.log("Entering Kiosk mode...");
-                this.$navigateTo(Kiosk);
+                this.$navigateTo(Kiosk, {
+                    props: {
+                      currentUser: {
+                        apikey: this.currentUser.apikey,
+                        firstName: this.currentUser.firstName,
+                        lastName: this.currentUser.lastName,
+                        isAdmin: this.currentUser.isAdmin,
+                        username: this.currentUser.username
+                      }
+                    }
+                  })
             }
         },
         
@@ -167,6 +189,21 @@
         color: white;
     }
 
+    .action-bar {
+        background-color: #2e5cb8;
+        font-size: 24;
+        font-weight: 400;
+        vertical-align: center;
+        text-align: right;
+    }
+
+    .action-bar-logout {
+        vertical-align: center;
+        font-size: 18;
+        font-weight: 350;
+        text-align: right;
+    }
+
     .schedule {
         font-size: 25;
         font-weight: 600;
@@ -176,8 +213,8 @@
         color: white;
     }
 
-    /* Page {
+    Page {
     	background: rgb(2,0,36);
 	    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(22,14,75,1) 0%, rgba(0,204,255,1) 100%);
-    } */
+    }
 </style>
