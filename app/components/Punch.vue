@@ -24,13 +24,20 @@
 	       console.log(this.currentUser);
 	    },
 
+	    getDate() {
+	       var d = new Date();
+	       return d.getHours() + ":" + d.getMinutes() + ", " + d.toDateString();
+	    },
+
             onPunchIn() {
                 this.punchToggle = !this.punchToggle
+		alert("Punched in at " + this.getDate());
                 console.log("You have punched in");
             },
 
             onPunchOut() {
                 this.punchToggle = !this.punchToggle
+		alert("Punched out at " + this.getDate());
                 console.log("You have punched out");
             },
 
