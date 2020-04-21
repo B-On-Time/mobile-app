@@ -72,8 +72,8 @@
         });
 
         var reqObj = {
-          username: "Administrator", 
-          password: "123"
+          username: this.user.username, 
+          password: this.password
         };
 
         instance.post('https://api.crabrr.com/auth/apikey', reqObj)

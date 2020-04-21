@@ -50,7 +50,12 @@
                 {
                     hours='0'+hours
                 }
-                var hmid = hours + ':' + d.getMinutes() + " " + mid
+                var m = d.getMinutes()
+                if(m < 10)
+                {
+                    m = '0'+m
+                }
+                var hmid = hours + ':' + m + " " + mid
                 this.entryTime = hmid
 
                 return hmid + ' ' + ymd;
