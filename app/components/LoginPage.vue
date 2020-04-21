@@ -48,13 +48,19 @@
     },
 
     methods: {
+
       submit() {
-        if (!this.user.username || !this.user.password) {
+
+        if (!this.user.username || !this.user.password) 
+        {
           this.alert("Please provide both an username and password.");
           return;
-        } else {
+        } 
+        else 
+        {
           this.login();
         }
+
       },
 
       login() {
@@ -65,7 +71,11 @@
           withCredentials: true
         });
 
-        var reqObj = {username: "Administrator", password: "123"};
+        var reqObj = {
+          username: "Administrator", 
+          password: "123"
+        };
+
         instance.post('https://api.crabrr.com/auth/apikey', reqObj)
             .then( (response) => {
                 console.log(response.data)
